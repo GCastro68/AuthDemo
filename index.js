@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'notagoodsecret' }));
+app.use(session({ secret: 'notagoodsecret', resave: true, saveUninitialized: true }));
 
 //Middleware que revisa si el usuario está logeado
 const requireLogin = (req, res, next) => {
@@ -83,9 +83,6 @@ app.post('/logout', (req, res) => {
 })
 
 app.get('/secret', requireLogin, (req, res) => {
-    if (!req.session.user_id) {
-        res.redirect('/login');
-    }
     res.render('secret');
 });
 
